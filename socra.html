@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Socra — your personal AI tutor. Personalized learning for every grade and every subject."/>
+<title>Socra — AI Tutor</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg0:#08080F;--bg1:#10101A;--bg2:#181825;--bg3:#202030;
+  --border:#252538;--border2:#32324A;
+  --text1:#EEEEF8;--text2:#8886A8;--text3:#55537A;
+  --brand:#7F6EF6;--brand2:#A992FF;--brand-bg:rgba(127,110,246,0.12);--brand-glow:rgba(127,110,246,0.22);
+  --gold:#C9A84C;--gold-bg:rgba(201,168,76,0.1);
+  --green:#3DD68C;--green-bg:rgba(61,214,140,0.1);
+  --r:10px;--rl:16px;--rxl:22px;
+}
+body.light{
+  --bg0:#F2F1EC;--bg1:#FFFFFF;--bg2:#ECEAE4;--bg3:#E2E0D8;
+  --border:#DDDAD2;--border2:#C8C5BC;
+  --text1:#18181A;--text2:#68665E;--text3:#9B9890;
+  --brand:#5B4FD4;--brand2:#7C6EF5;--brand-bg:rgba(91,79,212,0.08);--brand-glow:rgba(91,79,212,0.15);
+  --gold:#8A6F2E;--gold-bg:rgba(138,111,46,0.08);
+  --green:#1A8C5B;--green-bg:rgba(26,140,91,0.08);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg0);color:var(--text1);min-height:100vh;transition:background .25s,color .25s;overflow-x:hidden;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg0);z-index:100;transition:background .25s,border-color .25s;}
+.nav-brand{display:flex;align-items:center;gap:10px;}
+.nav-logo{width:34px;height:34px;border-radius:9px;background:var(--brand);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px var(--brand-glow);}
+.nav-logo svg{width:18px;height:18px;fill:white;}
+.nav-name{font-family:'Fraunces',serif;font-size:20px;color:var(--text1);letter-spacing:-.3px;}
+.nav-name em{color:var(--brand2);font-style:normal;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .15s;}
+.theme-btn:hover{border-color:var(--border2);}
+.btn-nav{padding:8px 18px;border-radius:var(--r);border:1px solid var(--border);background:transparent;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text2);cursor:pointer;transition:all .15s;}
+.btn-nav:hover{color:var(--text1);border-color:var(--border2);}
+.btn-nav-cta{padding:8px 18px;border-radius:var(--r);border:none;background:var(--brand);color:white;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;box-shadow:0 0 18px var(--brand-glow);transition:opacity .15s;}
+.btn-nav-cta:hover{opacity:.85;}
+
+/* HERO */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6rem 1.5rem 4rem;position:relative;overflow:hidden;}
+.hero-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse at center,var(--brand-glow) 0%,transparent 70%);pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);font-size:12px;color:var(--text2);margin-bottom:2rem;animation:fadeUp .5s ease both;}
+.hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 8px var(--green);}
+h1.hero-title{font-family:'Fraunces',serif;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:600;line-height:1.1;color:var(--text1);max-width:700px;margin-bottom:1.25rem;animation:fadeUp .5s .1s ease both;}
+h1.hero-title em{color:var(--brand2);font-style:italic;}
+.hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:var(--text2);max-width:480px;line-height:1.7;margin-bottom:2.5rem;font-weight:300;animation:fadeUp .5s .2s ease both;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp .5s .3s ease both;}
+.btn-hero-primary{padding:14px 28px;border-radius:var(--r);border:none;background:var(--brand);color:white;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 0 32px var(--brand-glow);transition:opacity .15s,transform .15s;}
+.btn-hero-primary:hover{opacity:.88;transform:translateY(-1px);}
+.btn-hero-ghost{padding:14px 28px;border-radius:var(--r);border:1px solid var(--border2);background:transparent;color:var(--text1);font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;}
+.btn-hero-ghost:hover{background:var(--bg2);}
+
+/* PROOF */
+.proof-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3rem 2.5rem;background:var(--bg1);text-align:center;}
+.proof-label{font-size:12px;color:var(--text3);margin-bottom:1.25rem;text-transform:uppercase;letter-spacing:.08em;}
+.proof-nums{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;}
+.proof-num strong{display:block;font-family:'Fraunces',serif;font-size:2rem;color:var(--text1);line-height:1;}
+.proof-num span{font-size:12px;color:var(--text2);margin-top:.3rem;display:block;}
+
+/* FEATURES */
+.features{padding:4rem 2.5rem 5rem;max-width:1100px;margin:0 auto;width:100%;}
+.section-eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brand2);font-weight:500;margin-bottom:.75rem;}
+.section-h{font-family:'Fraunces',serif;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--text1);margin-bottom:3rem;max-width:480px;line-height:1.25;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.feat-card{padding:1.5rem;border-radius:var(--rl);border:1px solid var(--border);background:var(--bg1);transition:border-color .2s,transform .2s;}
+.feat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:1rem;}
+.fi-p{background:var(--brand-bg);border:1px solid rgba(127,110,246,.2);}
+.fi-g{background:var(--gold-bg);border:1px solid rgba(201,168,76,.2);}
+.fi-gr{background:var(--green-bg);border:1px solid rgba(61,214,140,.2);}
+.feat-card h3{font-size:15px;font-weight:500;color:var(--text1);margin-bottom:.4rem;}
+.feat-card p{font-size:13px;color:var(--text2);line-height:1.65;}
+
+/* CTA BANNER */
+.cta-banner{padding:5rem 2.5rem;text-align:center;position:relative;overflow:hidden;}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:200px;background:radial-gradient(ellipse,var(--brand-glow) 0%,transparent 70%);pointer-events:none;}
+.cta-banner h2{font-family:'Fraunces',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text1);margin-bottom:.75rem;}
+.cta-banner p{color:var(--text2);margin-bottom:2rem;font-size:15px;}
+
+footer{padding:1.5rem 2.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
+footer p{font-size:12px;color:var(--text3);}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{font-size:12px;color:var(--text3);text-decoration:none;}
+.footer-links a:hover{color:var(--text2);}
+
+/* APP SHELL */
+#app{display:none;flex-direction:column;min-height:100vh;}
+.app-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--bg0);transition:background .25s,border-color .25s;}
+
+/* ONBOARD */
+#onboard{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2.5rem 1.5rem;}
+.onboard-card{background:var(--bg1);border:1px solid var(--border);border-radius:var(--rxl);padding:2.5rem 2rem;max-width:520px;width:100%;position:relative;}
+.ob-logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem;}
+.ob-logo-icon{width:36px;height:36px;border-radius:9px;background:var(--brand);display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px var(--brand-glow);}
+.ob-logo-icon svg{width:18px;height:18px;fill:white;}
+.ob-logo span{font-family:'Fraunces',serif;font-size:20px;color:var(--text1);}
+.ob-logo span em{color:var(--brand2);font-style:normal;}
+.ob-title{font-family:'Fraunces',serif;font-size:22px;color:var(--text1);margin-bottom:.3rem;}
+.ob-sub{font-size:13px;color:var(--text2);margin-bottom:1.75rem;}
+.field{margin-bottom:1rem;}
+.field label{display:block;font-size:11px;font-weight:500;color:var(--text2);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase;}
+.field input,.field select{width:100%;padding:10px 13px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg0);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);outline:none;appearance:none;transition:border-color .15s,box-shadow .15s;}
+.field input:focus,.field select:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow);}
+.field select option{background:var(--bg1);}
+.divider{height:1px;background:var(--border);margin:1.25rem 0;}
+.sec-label{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:8px;display:block;letter-spacing:.06em;text-transform:uppercase;}
+.chips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:1rem;}
+.chip{padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);font-size:12px;cursor:pointer;background:var(--bg0);color:var(--text2);transition:all .15s;font-family:'DM Sans',sans-serif;text-align:left;user-select:none;}
+.chip:hover{border-color:var(--border2);color:var(--text1);}
+.chip.sel{background:var(--brand-bg);border-color:var(--brand);color:var(--brand2);font-weight:500;}
+.add-row{display:flex;gap:8px;margin-bottom:1rem;}
+.add-row input{flex:1;}
+.add-btn{padding:10px 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2);white-space:nowrap;transition:all .15s;}
+.add-btn:hover{color:var(--text1);}
+.tags-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;min-height:20px;}
+.tag{padding:4px 10px;border-radius:999px;background:var(--gold-bg);color:var(--gold);font-size:12px;font-weight:500;display:flex;align-items:center;gap:5px;border:1px solid rgba(201,168,76,.2);}
+.tag button{background:none;border:none;cursor:pointer;color:var(--gold);font-size:13px;line-height:1;padding:0;opacity:.7;}
+.btn-start{width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--brand);color:white;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 0 28px var(--brand-glow);transition:opacity .15s,transform .15s;}
+.btn-start:hover{opacity:.88;transform:translateY(-1px);}
+
+/* TUTOR */
+#tutor{flex:1;display:none;flex-direction:column;max-width:760px;margin:0 auto;width:100%;padding:1.5rem 1.5rem 0;}
+.tutor-header{background:var(--bg1);border:1px solid var(--border);border-radius:var(--rl) var(--rl) 0 0;padding:.9rem 1.25rem;display:flex;align-items:center;justify-content:space-between;transition:background .25s;}
+.t-left{display:flex;align-items:center;gap:10px;}
+.t-avatar{width:34px;height:34px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 0 14px var(--brand-glow);}
+.t-name{font-weight:500;font-size:14px;color:var(--text1);}
+.t-grade{font-size:11px;color:var(--text2);}
+.t-right{display:flex;align-items:center;gap:8px;}
+.pills{display:flex;flex-wrap:wrap;gap:4px;}
+.pill{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:500;background:var(--brand-bg);color:var(--brand2);border:1px solid rgba(127,110,246,.2);}
+.icon-btn{width:30px;height:30px;border-radius:var(--r);border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .15s;}
+.icon-btn:hover{background:var(--bg2);}
+.chat-area{overflow-y:auto;padding:1.25rem;background:var(--bg0);border-left:1px solid var(--border);border-right:1px solid var(--border);display:flex;flex-direction:column;gap:14px;height:400px;transition:background .25s;}
+.msg{display:flex;gap:10px;align-items:flex-start;animation:fadeUp .25s ease both;}
+.msg.user{flex-direction:row-reverse;}
+.bubble{max-width:75%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.7;background:var(--bg1);border:1px solid var(--border);color:var(--text1);white-space:pre-wrap;}
+.msg.user .bubble{background:var(--brand);border-color:var(--brand);color:white;}
+.mavatar{width:28px;height:28px;border-radius:50%;background:var(--brand-bg);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(127,110,246,.2);}
+.msg.user .mavatar{background:var(--bg2);border-color:var(--border);}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--text2);animation:bop 1.2s infinite;display:inline-block;}
+.dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
+@keyframes bop{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+.typing-row{display:flex;gap:4px;align-items:center;padding:6px 2px;}
+.quick-strip{display:flex;flex-wrap:wrap;gap:5px;padding:.65rem 1.25rem;background:var(--bg1);border:1px solid var(--border);transition:background .25s;}
+.qb{padding:5px 12px;border-radius:999px;border:1px solid var(--border);font-size:11.5px;cursor:pointer;background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .12s;}
+.qb:hover{border-color:var(--brand);color:var(--brand2);}
+.input-bar{display:flex;gap:8px;padding:.85rem 1rem;background:var(--bg1);border:1px solid var(--border);border-radius:0 0 var(--rl) var(--rl);border-top:none;margin-bottom:1.5rem;transition:background .25s;}
+.subj-sel{padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);font-size:12px;font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text1);cursor:pointer;min-width:90px;outline:none;}
+.msg-in{flex:1;padding:9px 13px;border-radius:var(--r);border:1px solid var(--border);font-size:13.5px;font-family:'DM Sans',sans-serif;background:var(--bg0);color:var(--text1);outline:none;resize:none;height:38px;line-height:1.4;transition:border-color .15s,box-shadow .15s;}
+.msg-in:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow);}
+.send-btn{width:38px;height:38px;border-radius:var(--r);border:none;background:var(--brand);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 14px var(--brand-glow);transition:opacity .15s;}
+.send-btn:hover{opacity:.85;}
+.send-btn svg{width:16px;height:16px;fill:white;}
+.chat-area::-webkit-scrollbar{width:4px;}
+.chat-area::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ LANDING ════════════════ -->
+<div id="landing">
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm-1-11h2v6h-2zm0 8h2v2h-2z"/></svg>
+      </div>
+      <span class="nav-name">Socra<em>.</em></span>
+    </div>
+    <div class="nav-right">
+      <button class="theme-btn" id="landingTheme">🌙</button>
+      <button class="btn-nav" onclick="goToApp()">Sign in</button>
+      <button class="btn-nav-cta" onclick="goToApp()">Get started free</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge"><span></span> AI tutoring, personalized to you</div>
+    <h1 class="hero-title">Learn anything.<br><em>Finally understand it.</em></h1>
+    <p class="hero-sub">Socra adapts to your grade, your classes, and your pace — delivering crystal-clear explanations every time you're stuck.</p>
+    <div class="hero-btns">
+      <button class="btn-hero-primary" onclick="goToApp()">Start tutoring — it's free</button>
+      <button class="btn-hero-ghost" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">How it works →</button>
+    </div>
+  </section>
+
+  <section class="proof-strip">
+    <p class="proof-label">Built for every student</p>
+    <div class="proof-nums">
+      <div class="proof-num"><strong>6th–12th</strong><span>Grade support</span></div>
+      <div class="proof-num"><strong>20+</strong><span>Subjects covered</span></div>
+      <div class="proof-num"><strong>Dark &amp; light</strong><span>Mode support</span></div>
+      <div class="proof-num"><strong>100%</strong><span>Personalized</span></div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <p class="section-eyebrow">Why Socra</p>
+    <h2 class="section-h">Tutoring that actually adapts to you</h2>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon fi-p">🎓</div><h3>Grade-level precision</h3><p>Tell Socra your grade and it calibrates every explanation — simple for middle school, rigorous for college — automatically.</p></div>
+      <div class="feat-card"><div class="feat-icon fi-g">📚</div><h3>Knows your classes</h3><p>Select the subjects you're taking and Socra keeps context across your whole conversation, making every answer relevant.</p></div>
+      <div class="feat-card"><div class="feat-icon fi-gr">💬</div><h3>Teaches, doesn't just answer</h3><p>Socra breaks things into steps, uses real analogies, and ends every response with a question to push your understanding deeper.</p></div>
+      <div class="feat-card"><div class="feat-icon fi-p">🌙</div><h3>Dark &amp; light mode</h3><p>Study comfortably at 2 AM or in a bright classroom. Toggle between dark and light instantly, anywhere in the app.</p></div>
+      <div class="feat-card"><div class="feat-icon fi-g">⚡</div><h3>Instant answers</h3><p>No wait lists. Ask about anything — from quadratic equations to essay structure — and get answers in seconds.</p></div>
+      <div class="feat-card"><div class="feat-icon fi-gr">🦉</div><h3>Always encouraging</h3><p>Socra never judges. It meets you where you are and helps you build real understanding, one question at a time.</p></div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="cta-glow"></div>
+    <h2>Ready to actually understand your classes?</h2>
+    <p>Set up your profile in 30 seconds and start learning.</p>
+    <button class="btn-hero-primary" onclick="goToApp()">Start with Socra →</button>
+  </section>
+
+  <footer>
+    <p>© 2026 Socra. All rights reserved.</p>
+    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ════════════════ APP ════════════════ -->
+<div id="app">
+  <nav style="padding:1rem 2rem;">
+    <div class="nav-brand">
+      <div class="nav-logo" style="width:30px;height:30px;border-radius:8px;">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:white;"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm-1-11h2v6h-2zm0 8h2v2h-2z"/></svg>
+      </div>
+      <span class="nav-name" style="font-size:18px;">Socra<em>.</em></span>
+    </div>
+    <div class="nav-right">
+      <button class="theme-btn" id="appTheme">🌙</button>
+      <button class="btn-nav" onclick="backToLanding()" style="font-size:12px;">← Back</button>
+    </div>
+  </nav>
+
+  <!-- Onboarding -->
+  <div id="onboard" style="flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1.5rem;">
+    <div class="onboard-card">
+      <div class="ob-logo">
+        <div class="ob-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm-1-11h2v6h-2zm0 8h2v2h-2z"/></svg></div>
+        <span>Socra<em>.</em></span>
+      </div>
+      <h2 class="ob-title">Set up your profile</h2>
+      <p class="ob-sub">Tell us about yourself so every explanation is made for you.</p>
+      <div class="field"><label>Your name</label><input type="text" id="nameInput" placeholder="e.g. Jordan"/></div>
+      <div class="field"><label>Grade level</label>
+        <select id="gradeSelect">
+          <option value="">— pick your grade —</option>
+          <option>6th Grade</option><option>7th Grade</option><option>8th Grade</option>
+          <option>9th Grade (Freshman)</option><option>10th Grade (Sophomore)</option>
+          <option>11th Grade (Junior)</option><option>12th Grade (Senior)</option>
+          <option>College Freshman</option><option>College Sophomore</option>
+          <option>College Junior</option><option>College Senior</option>
+        </select>
+      </div>
+      <div class="divider"></div>
+      <span class="sec-label">Classes you're taking</span>
+      <div class="chips-grid">
+        <button class="chip" data-c="Math">Math</button>
+        <button class="chip" data-c="Algebra">Algebra</button>
+        <button class="chip" data-c="Geometry">Geometry</button>
+        <button class="chip" data-c="Pre-Calculus">Pre-Calc</button>
+        <button class="chip" data-c="Calculus">Calculus</button>
+        <button class="chip" data-c="Statistics">Statistics</button>
+        <button class="chip" data-c="Biology">Biology</button>
+        <button class="chip" data-c="Chemistry">Chemistry</button>
+        <button class="chip" data-c="Physics">Physics</button>
+        <button class="chip" data-c="Earth Science">Earth Sci</button>
+        <button class="chip" data-c="English / ELA">English</button>
+        <button class="chip" data-c="Literature">Literature</button>
+        <button class="chip" data-c="History">History</button>
+        <button class="chip" data-c="Government">Government</button>
+        <button class="chip" data-c="Spanish">Spanish</button>
+        <button class="chip" data-c="French">French</button>
+        <button class="chip" data-c="Computer Science">CS</button>
+        <button class="chip" data-c="Economics">Economics</button>
+      </div>
+      <div class="add-row">
+        <input type="text" id="customInput" placeholder="Add another class…"/>
+        <button class="add-btn" onclick="addCustom()">+ Add</button>
+      </div>
+      <div class="tags-row" id="tagsRow"></div>
+      <button class="btn-start" onclick="startTutor()">Begin my session →</button>
+    </div>
+  </div>
+
+  <!-- Tutor chat -->
+  <div id="tutor" style="flex:1;display:none;flex-direction:column;max-width:760px;margin:0 auto;width:100%;padding:1.5rem 1.5rem 0;">
+    <div class="tutor-header">
+      <div class="t-left">
+        <div class="t-avatar">🦉</div>
+        <div><div class="t-name" id="hName">Student</div><div class="t-grade" id="hGrade">Grade</div></div>
+      </div>
+      <div class="t-right">
+        <div class="pills" id="hPills"></div>
+        <button class="icon-btn" onclick="signOut()" style="font-size:11px;padding:0 8px;width:auto;min-width:60px;">Sign out</button>
+      </div>
+    </div>
+    <div class="chat-area" id="chatArea"></div>
+    <div class="quick-strip" id="quickStrip"></div>
+    <div class="input-bar">
+      <select class="subj-sel" id="subjSel"></select>
+      <textarea class="msg-in" id="msgIn" placeholder="Ask anything…" onkeydown="handleKey(event)"></textarea>
+      <button class="send-btn" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script>
+let isDark=true,selClasses=[],customClasses=[],chatHistory=[],studentName='',studentGrade='';
+
+function applyTheme(){
+  document.body.classList.toggle('light',!isDark);
+  const icon=isDark?'🌙':'☀️';
+  ['landingTheme','appTheme'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=icon;});
+}
+document.getElementById('landingTheme').addEventListener('click',()=>{isDark=!isDark;applyTheme();});
+document.getElementById('appTheme').addEventListener('click',()=>{isDark=!isDark;applyTheme();});
+
+function goToApp(){document.getElementById('landing').style.display='none';const a=document.getElementById('app');a.style.display='flex';a.style.flexDirection='column';}
+function backToLanding(){document.getElementById('app').style.display='none';document.getElementById('landing').style.display='block';}
+
+document.querySelectorAll('.chip').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.classList.toggle('sel');
+    const c=btn.dataset.c;
+    if(btn.classList.contains('sel')){if(!selClasses.includes(c))selClasses.push(c);}
+    else selClasses=selClasses.filter(x=>x!==c);
+  });
+});
+
+function addCustom(){const inp=document.getElementById('customInput');const v=inp.value.trim();if(!v||customClasses.includes(v)){inp.value='';return;}customClasses.push(v);renderTags();inp.value='';}
+document.getElementById('customInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCustom();}});
+function renderTags(){document.getElementById('tagsRow').innerHTML=customClasses.map((c,i)=>`<span class="tag">${c}<button onclick="removeTag(${i})">×</button></span>`).join('');}
+function removeTag(i){customClasses.splice(i,1);renderTags();}
+
+function startTutor(){
+  studentName=document.getElementById('nameInput').value.trim()||'Student';
+  studentGrade=document.getElementById('gradeSelect').value;
+  if(!studentGrade){alert('Please select your grade.');return;}
+  const all=[...selClasses,...customClasses];
+  if(!all.length){alert('Please select at least one class.');return;}
+  document.getElementById('hName').textContent=studentName;
+  document.getElementById('hGrade').textContent=studentGrade;
+  document.getElementById('hPills').innerHTML=all.slice(0,3).map(c=>`<span class="pill">${c}</span>`).join('')+(all.length>3?`<span class="pill">+${all.length-3}</span>`:'');
+  document.getElementById('subjSel').innerHTML=all.map(c=>`<option>${c}</option>`).join('');
+  document.getElementById('quickStrip').innerHTML=['Explain a concept','Quiz me','Show an example','Break it down','Why does this matter?'].map(p=>`<button class="qb" onclick="quickP('${p}')">${p}</button>`).join('');
+  document.getElementById('onboard').style.display='none';
+  const t=document.getElementById('tutor');t.style.display='flex';t.style.flexDirection='column';
+  chatHistory=[];document.getElementById('chatArea').innerHTML='';
+  addMsg('ai',`Hi ${studentName}! I'm Socra 🦉 — your personal AI tutor.\n\nYou're in ${studentGrade} taking ${all.join(', ')}. I'll tailor every explanation to your exact level.\n\nWhat would you like to work on today?`);
+}
+
+function signOut(){
+  document.getElementById('tutor').style.display='none';
+  document.getElementById('onboard').style.display='flex';
+  document.getElementById('chatArea').innerHTML='';
+  selClasses=[];customClasses=[];
+  document.querySelectorAll('.chip.sel').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('nameInput').value='';document.getElementById('gradeSelect').value='';
+  document.getElementById('tagsRow').innerHTML='';
+}
+
+function addMsg(role,text){
+  const area=document.getElementById('chatArea');
+  const d=document.createElement('div');
+  d.className=`msg${role==='user'?' user':''}`;
+  d.innerHTML=`<div class="mavatar">${role==='user'?'👤':'🦉'}</div><div class="bubble">${text}</div>`;
+  area.appendChild(d);area.scrollTop=area.scrollHeight;
+}
+function showTyping(){const area=document.getElementById('chatArea');const d=document.createElement('div');d.className='msg';d.id='typing';d.innerHTML=`<div class="mavatar">🦉</div><div class="bubble"><div class="typing-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>`;area.appendChild(d);area.scrollTop=area.scrollHeight;}
+function removeTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+
+async function callClaude(msg){
+  const all=[...selClasses,...customClasses];
+  const sys=`You are Socra, a brilliant and warm AI tutor. Student: ${studentName}, grade: ${studentGrade}, classes: ${all.join(', ')}. Adapt your language exactly to their level — simple and encouraging for middle schoolers, rigorous for college. Be concise (2–4 paragraphs max unless asked for more). Use analogies, step-by-step breakdowns, and real-world examples. Always end with a follow-up question or suggestion to deepen understanding.`;
+  chatHistory.push({role:'user',content:msg});
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:chatHistory})});
+  const data=await res.json();
+  const reply=data.content.map(b=>b.text||'').join('');
+  chatHistory.push({role:'assistant',content:reply});
+  return reply;
+}
+
+async function sendMsg(){
+  const inp=document.getElementById('msgIn');const subj=document.getElementById('subjSel').value;const text=inp.value.trim();
+  if(!text)return;addMsg('user',text);inp.value='';showTyping();
+  try{const r=await callClaude(subj?`[${subj}] ${text}`:text);removeTyping();addMsg('ai',r);}
+  catch(e){removeTyping();addMsg('ai','Something went wrong — please try again!');}
+}
+function quickP(p){const s=document.getElementById('subjSel').value;document.getElementById('msgIn').value=p+(s?` in ${s}`:'');document.getElementById('msgIn').focus();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+
+applyTheme();
+</script>
+</body>
+</html>
